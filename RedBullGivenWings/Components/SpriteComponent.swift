@@ -22,6 +22,7 @@ class SpriteComponent: GKComponent {
         node.entity = entity
         
         super.init()
+        
     }
     
     required init?(coder aDecoder: NSCoder) {

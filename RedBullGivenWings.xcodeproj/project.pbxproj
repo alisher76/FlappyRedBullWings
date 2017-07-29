@@ -36,6 +36,7 @@
 		ACB25E0A1F2A8C3200820A09 /* PlayerEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB25E091F2A8C3200820A09 /* PlayerEntity.swift */; };
 		ACB25E0C1F2A8C7D00820A09 /* SpriteComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACB25E0B1F2A8C7D00820A09 /* SpriteComponent.swift */; };
 		ACDAFB2B1F2A941F004DDEB6 /* MovementCompononet.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDAFB2A1F2A941F004DDEB6 /* MovementCompononet.swift */; };
+		ACDAFB2D1F2A9BFB004DDEB6 /* ObstacleEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDAFB2C1F2A9BFB004DDEB6 /* ObstacleEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +71,7 @@
 		ACB25E091F2A8C3200820A09 /* PlayerEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerEntity.swift; sourceTree = "<group>"; };
 		ACB25E0B1F2A8C7D00820A09 /* SpriteComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpriteComponent.swift; sourceTree = "<group>"; };
 		ACDAFB2A1F2A941F004DDEB6 /* MovementCompononet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementCompononet.swift; sourceTree = "<group>"; };
+		ACDAFB2C1F2A9BFB004DDEB6 /* ObstacleEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObstacleEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				ACB25E091F2A8C3200820A09 /* PlayerEntity.swift */,
+				ACDAFB2C1F2A9BFB004DDEB6 /* ObstacleEntity.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				ACB25DF81F2A82B300820A09 /* SKAction+Extensions.swift in Sources */,
 				ACB25E0A1F2A8C3200820A09 /* PlayerEntity.swift in Sources */,
 				ACB25DFA1F2A82B300820A09 /* SKColor+Extensions.swift in Sources */,
+				ACDAFB2D1F2A9BFB004DDEB6 /* ObstacleEntity.swift in Sources */,
 				ACB25DC71F2A804400820A09 /* GameViewController.swift in Sources */,
 				ACB25DF71F2A82B300820A09 /* Int+Extensions.swift in Sources */,
 				ACB25DFB1F2A82B300820A09 /* SKNode+Extensions.swift in Sources */,

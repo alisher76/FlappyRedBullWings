@@ -30,6 +30,10 @@ class MovementComponent: GKComponent {
     }
     
     
+    func applyImpulse(_ lastUpdateTime: TimeInterval) {
+        velocity = CGPoint(x: 0, y: impulse)
+    }
+    
     func applyMovement(_ seconds: TimeInterval) {
         let spriteNode = spriteComponent.node
         
@@ -37,24 +41,19 @@ class MovementComponent: GKComponent {
         let gravityStep = CGPoint(x: 0, y: gravity) * CGFloat(seconds)
         velocity += gravityStep
         
-        //Apply Velocity
+        // Apply Velocity
         let velocityStep = velocity * CGFloat(seconds)
         spriteNode.position += velocityStep
         
-        // temp
-        
+        // Temporary Ground Hit
         if spriteNode.position.y - spriteNode.size.height / 2 < playableStart {
             spriteNode.position = CGPoint(x: spriteNode.position.x, y: playableStart + spriteNode.size.height / 2)
         }
     }
     
     override func update(deltaTime seconds: TimeInterval) {
-        if let player = entity as? PlayerEntity {
-            applyMovement(seconds)
-        }
-    }
-    
-    func applyImpluse(_ timeInterval: TimeInterval){
-        velocity = CGPoint(x: 0, y: impulse)
+        // if let player = entity as? PlayerEntity {
+        applyMovement(seconds)
+        // }
     }
 }
