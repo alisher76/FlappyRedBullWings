@@ -43,6 +43,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var lastUpdateTimeInterval: TimeInterval = 0
     
     let player = PlayerEntity(imageName: "Bird0")
+    let popAction = SKAction.playSoundFileNamed("pop.wav", waitForCompletion: false)
+    
+    lazy var stateMachine: GKStateMachine = GKStateMachine(states: [
+             PlayingState(scene: self),
+             FallingState(scene: self),
+             GameOverState(scene: self)
+        ])
     
     override func didMove(to view: SKView) {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -52,7 +59,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupForeground()
         setupPlayer()
         // spawnObstacle()
-        startSpawning()
+        // startSpawning()
+        
+        stateMachine.enter(PlayingState.self)
     }
     
     func setupBackground() {
@@ -101,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let obstacle = ObstacleEntity(imageName: "Cactus")
         let obstacleNode = obstacle.spriteComponent.node
         obstacleNode.zPosition = Layer.obstacle.rawValue
-        
+        obstacleNode.name = "obstacle"
         return obstacle.spriteComponent.node
     }
     
@@ -114,7 +123,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let foreverSpawn = SKAction.repeatForever(spawnSequence)
         let overallSequence = SKAction.sequence([firstDelay, foreverSpawn])
         
-        run(overallSequence)
+       // run(overallSequence) instead of just running we can give it a identifier so we can reference it
+        run(overallSequence, withKey: "spawn")
     }
     
     func spawnObstacle() {
@@ -171,7 +181,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        player.movementComponent.applyImpulse(lastUpdateTimeInterval)
+       // player.movementComponent.applyImpulse(lastUpdateTimeInterval)
+        switch stateMachine.currentState {
+        case is PlayingState:
+            player.movementComponent.applyImpulse(lastUpdateTimeInterval)
+        case is GameOverState:
+            restartGame(PlayingState.self)
+        default:
+            break
+        }
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -182,18 +200,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         deltaTime = currentTime - lastUpdateTimeInterval
         lastUpdateTimeInterval = currentTime
         
-        updateForeground()
-        
+       // updateForeground()
+        stateMachine.update(deltaTime: deltaTime)
         player.update(deltaTime: deltaTime)
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
         let other = contact.bodyA.categoryBitMask == PhysicsCategory.Player ? contact.bodyB : contact.bodyA
         if other.categoryBitMask == PhysicsCategory.Ground {
-            print("Hit Ground")
+            stateMachine.enter(GameOverState.self)
         }
         if other.categoryBitMask == PhysicsCategory.Obstacle {
-            print("Hit Obstacle")
+            stateMachine.enter(FallingState.self)
         }
+    }
+    
+    // MARK: Stop spawning
+    
+    func stopSpawning() {
+        removeAction(forKey: "spawn")
+        worldNode.enumerateChildNodes(withName: "obstacle") { (node, stop) in
+            node.removeAllActions()
+        }
+    }
+    
+    //MARK: restart
+    
+    func restartGame(_ stateClass: AnyClass) {
+        run(popAction)
+        let newScene = GameScene(size: size)
+        let transition = SKTransition.fade(with: SKColor.black, duration: 0.02)
+        view?.presentScene(newScene, transition: transition)
     }
 }
